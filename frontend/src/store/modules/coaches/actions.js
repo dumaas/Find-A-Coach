@@ -28,4 +28,30 @@ export default {
       areas: data.areas,
     });
   },
+  async loadCoaches(context) {
+    const response = await axios.get('');
+
+    if (!response.ok) {
+      // error ...
+      console.log(response)
+    }
+
+    const coaches = [];
+
+    for (const key in response.data) {
+      const areas = response.data[key].areas.split(',').sort().reverse()
+      const id = Number([key]) + 1;
+      const coach = {
+        id: id,
+        firstName: response.data[key].firstName,
+        lastName: response.data[key].lastName,
+        description: response.data[key].description,
+        hourlyRate: response.data[key].hourlyRate,
+        areas: areas,
+      }
+      coaches.push(coach);
+    }
+
+    context.commit('setCoaches', coaches);
+  },
 }
