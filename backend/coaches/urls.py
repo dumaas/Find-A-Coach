@@ -1,8 +1,7 @@
 from django.urls import path
-from rest_framework.routers import SimpleRouter
-from .views import CoachViewSet
+from .views import CoachList, CoachDetail
 
-router = SimpleRouter()
-router.register('', CoachViewSet, basename='coaches')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('<uuid:pk>/', CoachDetail.as_view()),
+    path('', CoachList.as_view()),
+]
