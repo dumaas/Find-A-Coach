@@ -1,13 +1,8 @@
-import uuid
 from django.db import models
 from django.urls import reverse
 
 
 class Coach(models.Model):
-  id = models.UUIDField(
-      primary_key=True,
-      default=uuid.uuid4,
-      editable=False)
   firstName = models.CharField(max_length=50)
   lastName = models.CharField(max_length=50)
   description = models.CharField(max_length=200)
@@ -22,3 +17,18 @@ class Coach(models.Model):
 
   class Meta:
     verbose_name_plural = "Coaches"
+
+
+class Message(models.Model):
+  coach = models.ForeignKey(Coach, related_name='messages', on_delete=models.CASCADE)
+  userEmail = models.EmailField(max_length=254)
+  message = models.TextField()
+
+  def __str__(self):
+    return f"Created by {self.userEmail}"
+
+  def get_absolute_url(self):
+    return reverse('message_detail', args=[str(self.id)])
+
+  class Meta:
+    verbose_name_plural = "Messages"

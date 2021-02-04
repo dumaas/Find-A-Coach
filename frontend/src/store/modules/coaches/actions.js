@@ -10,7 +10,7 @@ export default {
       hourlyRate: data.rate,
     };
 
-    const response = await axios.post('', {
+    const response = await axios.post('coaches', {
       ...coachData,
       areas: data.areas.toString(),
     })
@@ -29,12 +29,12 @@ export default {
     });
   },
   async loadCoaches(context) {
-    const response = await axios.get('');
-
-    if (!response.ok) {
-      // error ...
-      console.log(response)
-    }
+    const response = await axios.get('coaches')
+      .catch(err => {
+        console.log(err);
+        const error = new Error(err.message || 'Failed to fetch!');
+        throw error;
+      });
 
     const coaches = [];
 

@@ -1,15 +1,13 @@
-from rest_framework import generics
-from .models import Coach
-from .serializers import CoachSerializer
+from rest_framework import viewsets
+from .models import Coach, Message
+from .serializers import CoachSerializer, MessageSerializer
 
 
-class CoachList(generics.ListCreateAPIView):
+class CoachViewSet(viewsets.ModelViewSet):
   queryset = Coach.objects.all()
-  context_object_name = 'coach_list'
   serializer_class = CoachSerializer
 
 
-class CoachDetail(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Coach.objects.all()
-  context_object_name = 'coach'
-  serializer_class = CoachSerializer
+class MessageViewSet(viewsets.ModelViewSet):
+  queryset = Message.objects.all()
+  serializer_class = MessageSerializer

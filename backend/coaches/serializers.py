@@ -1,20 +1,43 @@
 from rest_framework import serializers
-from .models import Coach
+from .models import Coach, Message
 
 
-class CoachSerializer(serializers.ModelSerializer):
-  coach_url = serializers.SerializerMethodField()
+class MessageSerializer(serializers.HyperlinkedModelSerializer):
+  url = serializers.HyperlinkedIdentityField(
+      view_name='messages-detail',
+  )
 
   class Meta:
+    model = Message
     fields = (
+        'url',
+        'id',
+        'coach',
+        'userEmail',
+        'message',)
+    extra_kwargs = {
+        'coach': {'view_name': 'coaches-detail'},
+    }
+
+
+class CoachSerializer(serializers.HyperlinkedModelSerializer):
+  url = serializers.HyperlinkedIdentityField(
+      view_name='coaches-detail',
+  )
+  messages = serializers.PrimaryKeyRelatedField(
+      many=True,
+      read_only=True,
+      # view_name='messages-detail'
+  )
+
+  class Meta:
+    model = Coach
+    fields = (
+        'url',
         'id',
         'firstName',
         'lastName',
         'description',
         'hourlyRate',
         'areas',
-        'coach_url')
-    model = Coach
-
-  def get_coach_url(self, coach):
-    return f"http://localhost:8000/{coach.id}/"
+        'messages')

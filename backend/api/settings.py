@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -27,6 +26,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'django_extensions',
 
     # Local
     'coaches.apps.CoachesConfig',
@@ -43,7 +43,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'coachapi.urls'
+
+ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
     {
@@ -61,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'coachapi.wsgi.application'
+WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
