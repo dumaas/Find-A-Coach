@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    ports:
+      - 8000:8000
+    build: ./backend
+    restart: unless-stopped
+    networks:
+      - backend
+    depends_on:
+      - db
+    volumes:
+      - ./backend/:/code/backend:Z
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - SECRET_KEY=YOUR_SECRET_KEY
+      - DEBUG=True
+
+  frontend:
+    ports:
+      - 8080:8080
+    build: ./frontend
+    restart: unless-stopped
+    volumes:
+      - './frontend/:/code/frontend:cached'
+      - '/code/frontend/node_modules'
+    command: npm run serve
+
+  db:
+    image: postgres:11
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
