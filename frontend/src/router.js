@@ -17,7 +17,7 @@ const router = createRouter({
       props: true,
       children: [
         {
-          path: 'contact', // coaches/c1/contact
+          path: 'contact', // coaches/1/contact
           component:  () => import('./pages/requests/ContactCoach.vue'),
         },
       ],

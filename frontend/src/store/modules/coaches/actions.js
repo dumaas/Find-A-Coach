@@ -10,17 +10,16 @@ export default {
       hourlyRate: data.rate,
     };
 
-    const response = await axios.post('coaches', {
+    const response = await axios.post('coaches/', {
       ...coachData,
       areas: data.areas.toString(),
-    })
+    }).catch(err => {
+        console.log(err);
+        const error = new Error(err.message || 'Failed to register coach!');
+        throw error;
+      });
 
-    const responseData = await response;
-
-    if (!response.ok) {
-      // error ...
-      console.log(responseData)
-    }
+    console.log(response)
 
     context.commit('registerCoach', {
       ...coachData,
@@ -28,8 +27,12 @@ export default {
       areas: data.areas,
     });
   },
-  async loadCoaches(context) {
-    const response = await axios.get('coaches')
+  async loadCoaches(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return;
+    }
+
+    const response = await axios.get('coaches/')
       .catch(err => {
         console.log(err);
         const error = new Error(err.message || 'Failed to fetch!');
@@ -39,19 +42,18 @@ export default {
     const coaches = [];
 
     for (const key in response.data) {
-      const areas = response.data[key].areas.split(',').sort().reverse()
-      const id = Number([key]) + 1;
       const coach = {
-        id: id,
+        id: response.data[key].id,
         firstName: response.data[key].firstName,
         lastName: response.data[key].lastName,
         description: response.data[key].description,
         hourlyRate: response.data[key].hourlyRate,
-        areas: areas,
+        areas: response.data[key].areas.split(',').sort().reverse(),
       }
       coaches.push(coach);
     }
 
     context.commit('setCoaches', coaches);
+    context.commit('setFetchTimestamp');
   },
 }

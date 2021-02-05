@@ -1,4 +1,7 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <form @submit.prevent="submitForm">
     <div class="form-control" :class="{invalid: !email.isValid}">
       <label for="email">Your Email</label>
@@ -20,6 +23,8 @@
   export default {
     data() {
       return {
+        isLoading: false,
+        error: null,
         email: {
           val: '',
           isValid: true,
@@ -54,6 +59,7 @@
         }
       },
       submitForm() {
+        this.isLoading = true;
         this.validateForm();
 
         if (!this.formIsValid) {
@@ -66,8 +72,17 @@
           message: this.message.val,
         };
 
-        this.$store.dispatch('requests/contactCoach', requestData);
+        try {
+          this.$store.dispatch('requests/contactCoach', requestData);
+        } catch(error) {
+          this.error = error.message || 'Something went wrong!';
+        }
+
+        this.isLoading = false;
         this.$router.replace('/coaches');
+      },
+      handleError() {
+        this.error = null;
       },
     },
   }

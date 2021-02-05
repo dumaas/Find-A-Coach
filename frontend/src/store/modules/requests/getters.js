@@ -1,7 +1,15 @@
 export default {
-  requests(state, _, _2, rootGetters) {
-    const coachId = rootGetters.userId;
-    return state.requests.filter(req => req.coachId === coachId);
+  requests(state) {
+    let myProxy = state.requests
+    let myTarget = JSON.parse(JSON.stringify(myProxy))
+
+    let requests = []
+
+    myTarget.forEach(
+      req => requests.push(req)
+    );
+
+    return requests;
   },
   hasRequests(_, getters) {
     return getters.requests && getters.requests.length > 0;

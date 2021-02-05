@@ -7,6 +7,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      lastFetch: null,
       userIsCoach: false,
       coaches: sampleData,
     };
