@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
 
@@ -112,6 +113,7 @@ REST_FRAMEWORK = {
 # JWT Auth setup
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',

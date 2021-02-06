@@ -10,16 +10,25 @@ export default {
       hourlyRate: data.rate,
     };
 
+    const token = context.rootGetters.token;
+
     const response = await axios.post('coaches/', {
       ...coachData,
       areas: data.areas.toString(),
+    },
+    {
+      headers: {
+        common: {
+          'Authorization': token,
+        },
+      }
     }).catch(err => {
         console.log(err);
         const error = new Error(err.message || 'Failed to register coach!');
         throw error;
       });
 
-    console.log(response)
+    console.log(response.data)
 
     context.commit('registerCoach', {
       ...coachData,

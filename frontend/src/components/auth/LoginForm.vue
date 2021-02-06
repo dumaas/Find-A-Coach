@@ -78,7 +78,6 @@
           return;
         }
 
-        // send http request
         let user = this.userEmail.val
         let newUsername = user.replace('@', '_').substring(0, user.indexOf('.com'))
 
@@ -87,7 +86,8 @@
           email: this.userEmail.val,
           password: this.userPassword.val,
         };
-        this.$emit('save-data', formData);
+
+        this.$emit('save-data', formData, this.mode);
       },
       switchAuthMode() {
         if (this.mode === 'login') {

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <base-dialog :show="!!error" title="An error occurred." @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+      <base-spinner></base-spinner>
+    </base-dialog>
     <section>
       <base-card>
         <h2>Log in!</h2>
@@ -16,10 +22,37 @@
     components: {
       LoginForm,
     },
+    data() {
+      return {
+        isLoading: false,
+        error: null,
+      };
+    },
     methods: {
-      saveData(data) {
-        this.$store.dispatch('coaches/registerCoach', data);
-        this.$router.replace('/coaches');
+      async saveData(data, mode) {
+        this.isLoading = true;
+
+        try {
+          if (mode === 'login') {
+            await this.$store.dispatch('login', data);
+          } else {
+            await this.$store.dispatch('signup', {
+              username: data.username,
+              password1: data.password,
+              password2: data.password,
+              email: data.email,
+            })
+          }
+        } catch(err) {
+          this.error = err.message || 'Failed to authenticated, try again later!';
+        }
+
+        this.isLoading = false;
+
+        // this.$router.replace('/coaches');
+      },
+      handleError() {
+        this.error = null;
       },
     },
   }

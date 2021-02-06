@@ -24,8 +24,14 @@ export default {
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
 
-    const response = await axios.get('messages/')
-      .catch(err => {
+    const token = context.rootGetters.token;
+    const response = await axios.get('messages/', {
+      headers: {
+        common: {
+          'Authorization': token,
+        },
+      }
+    }).catch(err => {
         console.log(err);
         console.log(context)
         const error = new Error(err.message || 'Failed to fetch request messages!');

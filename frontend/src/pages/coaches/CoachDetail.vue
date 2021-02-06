@@ -51,6 +51,9 @@
         return this.selectedCoach.description;
       },
       contactLink() {
+        if (this.$route.path.includes("/contact")) {
+          return this.$route.path;
+        }
         return this.$route.path + '/contact';
       },
     },
@@ -72,6 +75,11 @@
       }
 
       this.isLoading = false;
+
+      // check if contact already visible
+      if (this.$route.path.includes("contact")) {
+        this.contactIsVisible = true;
+      }
     },
     methods: {
       handleError() {
