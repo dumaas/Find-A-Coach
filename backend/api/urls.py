@@ -19,7 +19,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # Django admin
-    path('admin/', admin.site.urls),
+    path('myadmin/', admin.site.urls),
 
     # API
     path('', include('coaches.urls')),

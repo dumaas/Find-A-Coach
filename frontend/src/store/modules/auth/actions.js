@@ -84,6 +84,10 @@ export default {
       context.dispatch('autoLogout')
     }, expiresIn);
 
+    if (id) {
+      context.commit('coaches/assignCoach');
+    }
+
     if (token) {
       context.commit('setUser', {
         token: token,
