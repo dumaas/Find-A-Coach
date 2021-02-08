@@ -8,6 +8,7 @@ export default {
       lastName: data.last,
       description: data.desc,
       hourlyRate: data.rate,
+      email: userId,
     };
 
     const token = context.rootGetters.token;
@@ -58,6 +59,7 @@ export default {
         description: response.data[key].description,
         hourlyRate: response.data[key].hourlyRate,
         areas: response.data[key].areas.split(',').sort().reverse(),
+        email: response.data[key].email,
       }
       coaches.push(coach);
     }

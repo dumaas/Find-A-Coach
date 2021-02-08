@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from './store/index.js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,14 +25,17 @@ const router = createRouter({
     },
     {
       path: '/register',
+      meta: { requiresAuth: true },
       component: () => import('./pages/coaches/CoachRegistration.vue'),
     },
     {
       path: '/requests',
+      meta: { requiresAuth: true },
       component: () => import('./pages/requests/RequestsReceived.vue'),
     },
     {
       path: '/login',
+      meta: { requiresUnauth: true },
       component: () => import('./pages/auth/UserAuth.vue'),
     },
     {
@@ -40,5 +44,15 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next('/login');
+  } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
+    next('/coaches')
+  } else {
+    next();
+  }
+})
 
 export default router;

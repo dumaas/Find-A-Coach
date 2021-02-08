@@ -8,6 +8,7 @@ class Coach(models.Model):
   description = models.CharField(max_length=200)
   hourlyRate = models.PositiveIntegerField()
   areas = models.CharField(max_length=200)
+  email = models.EmailField(max_length=254, default="test@email.com")
 
   def __str__(self):
     return f"{self.firstName} {self.lastName}"

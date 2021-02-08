@@ -33,7 +33,6 @@ export default {
       }
     }).catch(err => {
         console.log(err);
-        console.log(context)
         const error = new Error(err.message || 'Failed to fetch request messages!');
         throw error;
       });

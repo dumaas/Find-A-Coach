@@ -6,7 +6,7 @@ export default {
     return state.coaches && state.coaches.length > 0;
   },
   isCoach(state) {
-    return state.userIsCoach
+    return state.userIsCoach;
   },
   shouldUpdate(state) {
     const lastFetch = state.lastFetch;

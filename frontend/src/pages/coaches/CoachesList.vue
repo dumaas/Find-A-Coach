@@ -10,7 +10,8 @@
       <base-card>
         <div class="controls">
           <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
-          <base-button v-if="!isCoach && !isLoading" link to="/register">Register as a Coach</base-button>
+          <base-button link to="/login?redirect=register" v-if="!isLoggedIn">Login to Register as a Coach</base-button>
+          <base-button v-if="isLoggedIn && !isCoach && !isLoading" link to="/register">Register as a Coach</base-button>
         </div>
         <div v-if="isLoading">
           <base-spinner></base-spinner>
@@ -74,6 +75,7 @@
       },
       ...mapGetters({
         isCoach: 'coaches/isCoach',
+        isLoggedIn: 'isAuthenticated',
       }),
     },
     created() {

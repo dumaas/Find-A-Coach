@@ -9,4 +9,7 @@ export default {
   setFetchTimestamp(state) {
     state.lastFetch = new Date().getTime();
   },
+  assignCoach(state) {
+    state.userIsCoach = true;
+  },
 }

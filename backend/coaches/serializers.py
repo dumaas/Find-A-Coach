@@ -27,7 +27,6 @@ class CoachSerializer(serializers.HyperlinkedModelSerializer):
   messages = serializers.PrimaryKeyRelatedField(
       many=True,
       read_only=True,
-      # view_name='messages-detail'
   )
 
   class Meta:
@@ -35,6 +34,7 @@ class CoachSerializer(serializers.HyperlinkedModelSerializer):
     fields = (
         'url',
         'id',
+        'email',
         'firstName',
         'lastName',
         'description',

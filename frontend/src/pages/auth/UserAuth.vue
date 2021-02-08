@@ -43,13 +43,13 @@
               email: data.email,
             })
           }
+          const redirectUrl = '/' + (this.$route.query.redirect || 'coaches')
+          this.$router.replace(redirectUrl)
         } catch(err) {
           this.error = err.message || 'Failed to authenticated, try again later!';
         }
 
         this.isLoading = false;
-
-        // this.$router.replace('/coaches');
       },
       handleError() {
         this.error = null;
