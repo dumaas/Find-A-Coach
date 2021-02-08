@@ -4,12 +4,14 @@ setup:
 build:
   docker:
     api: backend/Dockerfile
-    frontend: frontend/Dockerfile
+    fronted: frontend/Dockerfile
 release:
   image: frontend
   command:
     - npm run build
-  image: backend
+  image: api
+  command:
     - python manage.py collectstatic --noinput
+    - python manage.py migrate
 run:
   api: gunicorn api.wsgi
